@@ -1,0 +1,22 @@
+<div class="container" [formGroup]="tweetForm">
+    <h2>Tweet</h2>
+    <div class="row">
+        <div class="col-6 p-3">
+            <label for="tweet">Add Something: </label>
+            <input id="tweet" class="w-100" type="text" formControlName="message">
+            <div class="text-danger" *ngIf="(tweet?.touched || tweet?.dirty) && tweet?.invalid">
+                <small *ngIf="tweet?.errors?.['required']">
+                    Tweet is required.<br>
+                </small>
+                <small *ngIf="tweet?.errors?.['maxlength']">
+                    Tweet cannot exceed 144 Characters.<br>
+                </small>
+            </div>
+        </div>
+    </div>
+    <button class="" (click)="post()">Post</button>
+
+    <app-header></app-header>
+    <br>
+    <app-users></app-users>
+</div>

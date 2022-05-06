@@ -1,0 +1,16 @@
+<div class="container" [formGroup]="loginForm">
+    <h2>Login</h2>
+    <div class="row">
+        <div class="col-6 p-3">
+            <label for="username">Username: </label>
+            <input id="username" class="w-100" type="text" formControlName="emailId">
+        </div>
+        <div class="col-6 p-3">
+            <label for="password">Password: </label>
+            <input id="password" class="w-100" type="password" formControlName="password">
+        </div>
+    </div>
+    <button class="" (click)="submit()">Login</button>
+    <small class="" routerLink="/forgot-password">Forgot Password ?</small>
+    <button class="" routerLink="/register">Register</button>
+</div>
