@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import * as fileSaver from 'file-saver';
+import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/helper/dto/user';
+import { FileService } from 'src/app/services/file.service';
+import { StorageService } from 'src/app/services/storage.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +13,53 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  private user!: User;
+
+  constructor(private fileService: FileService,
+    private _toastrService: ToastrService,
+    private userService: UserService,
+    private storageService: StorageService) { }
 
   ngOnInit(): void {
+    this.getCurrentUser(this.storageService.getId());
   }
 
+  private getCurrentUser(emailId: string | null) {
+    if (emailId != null) {
+      this.userService.getUserByMailId(emailId).subscribe(response => {
+        this.user = response;
+      },
+        errorObj => {
+          this._toastrService.error(errorObj.error.message, 'Failed !!!', { timeOut: 2000 });
+        })
+    }
+  }
+
+  downloadTweets() {
+    this.fileService.downloadFile().subscribe((response) => {
+      response = this.filterTweetIdAndRepliesFromResponse(response);
+      const blob: any = new Blob([response], { type: 'text/json; charset=utf-8' });
+      const url = window.URL.createObjectURL(blob);
+      fileSaver.saveAs(blob, 'tweets.json');
+      this._toastrService.success('File downloaded successfully', 'Success', { timeOut: 1000, });
+    },
+      (errorObj: any) => {
+        this._toastrService.error("Error downloading the file", 'Failed !!!', { timeOut: 2000 });
+      })
+  }
+
+  private filterTweetIdAndRepliesFromResponse(response: any): any {
+    return response.map((obj: any) => {
+      const { tweetId, replies, ...rest } = obj;
+      return JSON.stringify([rest]);
+    })
+  }
+
+  get isCurrentUserNull(): boolean {
+    return this.user == null;
+  }
+
+  get currentUser() {
+    return this.user;
+  }
 }

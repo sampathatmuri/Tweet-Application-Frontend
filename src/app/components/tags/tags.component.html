@@ -1,0 +1,5 @@
+<div *ngFor="let tag of trendingTags">
+
+    <button class="btn btn-link" (click)="getTrendingTweets(tag.tagName)">{{tag.tagName}}</button>
+
+</div>

@@ -1,0 +1,27 @@
+<app-profile></app-profile>
+<div *ngIf="!isUsersEmpty" class="card mb-2">
+    <div class="card-title h5 text-center bg-info text-white mb-0 py-2">Users</div>
+    <div class="card-body p-0">
+        <ul class="d-flex list-group users-list">
+            <li *ngFor="let user of users" class="list-group-item">
+                <div class="d-flex flex-row">
+                    <div class="my-auto"><img src="../../../assets/images/person-icon.svg" width="35" height="35"
+                            alt="Profile"></div>
+                    <div class="d-flex flex-column">
+                        <div>
+                            <button type="button" class="btn btn-link"
+                                (click)="getAllTweetsOfUser(user.emailId)">@{{user.emailId.split('@')[0]}}</button>
+                        </div>
+                        <div class="pl-4 small">
+                            <mat-icon class="md-18">contact_mail</mat-icon>
+                            <span>{{user.firstName}}&nbsp;{{user.lastName}}</span>
+                        </div>
+                        <div class="pl-4 small">
+                            <mat-icon class="md-18"> contact_phone</mat-icon><span>{{user.contactNumber}}</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -19,20 +19,38 @@ export class RegisterComponent implements OnInit {
     private _router: Router,
   ) { }
 
-  registerForm = this._formBuilder.group ({
-    firstName: ['', [Validators.required,Validators.maxLength(25), Validators.pattern('^[a-zA-Z]+$')]],
-    lastName: ['', [Validators.required,Validators.maxLength(25), Validators.pattern('^[a-zA-Z]+$')]],
-    email: ['', [Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
-    password: ['', [Validators.required,Validators.minLength(8), Validators.pattern('^.*(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).*$')]],
-    confirmPassword: ['', [Validators.required],[this.customValidator()]],
-    mobileNo: ['', [Validators.required,Validators.maxLength(10), Validators.minLength(10), Validators.pattern('^[0-9]+$')]],
+  registerForm = this._formBuilder.group({
+    firstName: ['', [Validators.required, Validators.maxLength(25), Validators.pattern('^[a-zA-Z]+$')]],
+    lastName: ['', [Validators.required, Validators.maxLength(25), Validators.pattern('^[a-zA-Z]+$')]],
+    emailId: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+    password: ['', [Validators.required, Validators.pattern('((?=.*\\d)(?=.*[a-zA-Z])\\S{6,20})')]],
+    confirmPassword: ['', [Validators.required], [this.customValidator()]],
+    contactNumber: ['', [Validators.required, Validators.pattern('^\\d{10}$')]],
   })
-
+  
   ngOnInit(): void {
   }
+  
+  register() {
+    this._registrationService.postUser(this.registerForm.value).subscribe(
+      response => {
+        console.log(response)
+        this._toastrService.success('Signup successfull', 'Success', { timeOut: 2000 });
+        setTimeout(() => {
+          this.registerForm.reset();
+          this._router.navigate(['/login']);
+        }, 1000);
+      },
+      errorObj => {
+        this._toastrService.error(JSON.parse(errorObj.error).message, 'Signup Failed!!!', { timeOut: 2000 });
+      }
+    );
+  }
+  
   checkIfPasswordsAreDifferent(pass: string, conpass: string): Observable<boolean> {
     return of(pass != conpass);
   }
+
   customValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.checkIfPasswordsAreDifferent(this.registerForm.controls['password'].value,
@@ -40,24 +58,10 @@ export class RegisterComponent implements OnInit {
           map(res => {
             return res ? { didnotMatch: true } : null;
           })
-      )
+        )
     }
   }
 
-  register() {
-    this._registrationService.postUser(this.registerForm.value).subscribe(
-      response => {
-        this._toastrService.success('Your request is Successful', 'Success', { timeOut: 2000 });
-        setTimeout( () => {
-          this.registerForm.reset();
-          this._router.navigate(['/']);
-        }, 2000);
-      },
-      error => {
-        this._toastrService.error(error.error, 'Error', { timeOut: 2000 });
-      }
-    );
-  }
 
   get firstName() {
     return this.registerForm.get('firstName');
@@ -65,8 +69,8 @@ export class RegisterComponent implements OnInit {
   get lastName() {
     return this.registerForm.get('lastName');
   }
-  get email() {
-    return this.registerForm.get('email');
+  get emailId() {
+    return this.registerForm.get('emailId');
   }
   get username() {
     return this.registerForm.get('username');
@@ -78,6 +82,6 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('confirmPassword');
   }
   get mobileNo() {
-    return this.registerForm.get('mobileNo');
+    return this.registerForm.get('contactNumber');
   }
 }

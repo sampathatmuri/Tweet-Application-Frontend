@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,9 +13,17 @@ import { ToastrModule } from 'ngx-toastr';
 import { HeaderComponent } from './components/header/header.component'
 import { NgxUploaderModule } from 'ngx-uploader';
 import { TokenInterceptor } from './helper/token-interceptor';
-import { UsersComponent } from './components/users/users.component';
 import { ProfileComponent } from './components/profile/profile.component';
-
+import { LogoutComponent } from './components/logout/logout.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PostTweetComponent } from './components/post-tweet/post-tweet.component';
+import { MatIconModule } from '@angular/material/icon';
+import { TweetListComponent } from './components/tweet-list/tweet-list.component';
+import { UserListComponent } from './components/user-list/user-list.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { ReplyTweetComponent } from './components/reply-tweet/reply-tweet.component';
+import { TagsComponent } from './components/tags/tags.component';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,21 +32,25 @@ import { ProfileComponent } from './components/profile/profile.component';
     HomeComponent,
     ForgotPasswordComponent,
     HeaderComponent,
-    UsersComponent,
     ProfileComponent,
+    LogoutComponent,
+    PostTweetComponent,
+    TweetListComponent,
+    UserListComponent,
+    ReplyTweetComponent,
+    TagsComponent,
+    DateAgoPipe
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgxUploaderModule,
+    BrowserModule, AppRoutingModule, BrowserAnimationsModule,
+    ReactiveFormsModule, HttpClientModule, NgxUploaderModule,
+    NgbModule, MatIconModule, MatBadgeModule,
     ToastrModule.forRoot({
       timeOut: 10000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
-    })
+
+    }),
   ],
   providers: [
     {

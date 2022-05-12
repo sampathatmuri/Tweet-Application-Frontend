@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { api } from 'src/environments/environment';
@@ -8,13 +8,27 @@ import { api } from 'src/environments/environment';
 })
 export class AuthService {
 
-  target: string = 'login';
 
   constructor(
     private _http: HttpClient
   ) { }
 
   authenticate(loginDetails: any): Observable<any> {
-    return this._http.post(`${api.route}/${this.target}`, loginDetails, { observe: 'response' });
+    let target: string = 'login';
+    let reqHeader = new HttpHeaders({ 'No-Auth': 'True' });
+    return this._http.post(`${api.route}/${target}`, loginDetails, { headers: reqHeader, observe: 'response' });
   }
+
+  sendOTP(emailId: string, OTP: string): Observable<any> {
+    let target: string = `sendOtp/${emailId}`;
+    let reqHeader = new HttpHeaders({ 'No-Auth': 'True' });
+    return this._http.post(`${api.route}/${target}`, OTP, { headers: reqHeader, observe: 'response', responseType: 'text' });
+  }
+
+  changePassword(emailId: string, newPassword: string): Observable<any> {
+    let target: string = `${emailId}/forgot`;
+    let reqHeader = new HttpHeaders({ 'No-Auth': 'True' });
+    return this._http.put(`${api.route}/${target}`, { "newPassword": newPassword }, { headers: reqHeader, observe: 'response', responseType: 'text' });
+  }
+
 }

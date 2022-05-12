@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
@@ -9,25 +7,13 @@ import { StorageService } from 'src/app/services/storage.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor(
-    private _storageService: StorageService,
-    private _router: Router,
-    private _toastrService: ToastrService,
-  ) { }
+  public toggler = true;
+  constructor(private _storageService: StorageService) { }
 
   ngOnInit(): void {
   }
 
-  logout() {
-    this._storageService.signOut();
-    var login = this._storageService.validateToken();
-    if(login == false) {
-      this._toastrService.success('Your request is Successful', 'Success', { timeOut: 2000, });
-      setTimeout(() => {
-        this._router.navigate(['/login']);
-      }, 2000);
-    }
+  isUserLoggedIn():boolean{
+    return this._storageService.validateToken();
   }
-
 }

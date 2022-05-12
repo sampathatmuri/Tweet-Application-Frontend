@@ -36,7 +36,7 @@ export class StorageService {
     return window.localStorage.getItem(ID_KEY);
   }
 
-  signOut() {
+  removeToken() {
     window.localStorage.removeItem(ID_KEY);
     window.localStorage.removeItem(TOKEN_KEY);
   }

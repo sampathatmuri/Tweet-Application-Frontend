@@ -9,11 +9,16 @@ import { StorageService } from './storage.service';
 })
 export class UserService {
 
-  constructor(private _http:HttpClient,private _storageService:StorageService) { }
+  constructor(private _http: HttpClient, private _storageService: StorageService) { }
 
 
-  getAllUsersFromApi():Observable<HttpResponseBase>{
+  getAllUsersFromApi(): Observable<any> {
     let target = `users/all`;
-    return this._http.get(`${api.route}/${target}`, { observe: 'response' });
+    return this._http.get(`${api.route}/${target}`);
+  }
+
+  getUserByMailId(emailId: any): Observable<any> {
+    let target = "user/search"
+    return this._http.get(`${api.route}/${target}/${emailId}`);
   }
 }

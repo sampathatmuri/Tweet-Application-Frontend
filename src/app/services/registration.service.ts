@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponseBase } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponseBase } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { api } from 'src/environments/environment';
@@ -13,9 +13,9 @@ export class RegistrationService {
   constructor(private _http: HttpClient) { }
 
   postUser(user: any): Observable<HttpResponseBase> {
-    return this._http.post(`${api.route}/${this.target}`, user, { observe: 'response' });
+    let reqHeader = new HttpHeaders({ 'No-Auth': 'True' });
+    this.target = "register"
+    return this._http.post(`${api.route}/${this.target}`, user, { headers: reqHeader, observe: 'response', responseType: 'text' });
   }
-  getUserById(id: any): Observable<HttpResponseBase> {
-    return this._http.get(`${api.route}/${this.target}/${id}`, { observe: 'response'});
-  }
+
 }

@@ -1,22 +1,21 @@
-<div class="container" [formGroup]="tweetForm">
-    <h2>Tweet</h2>
-    <div class="row">
-        <div class="col-6 p-3">
-            <label for="tweet">Add Something: </label>
-            <input id="tweet" class="w-100" type="text" formControlName="message">
-            <div class="text-danger" *ngIf="(tweet?.touched || tweet?.dirty) && tweet?.invalid">
-                <small *ngIf="tweet?.errors?.['required']">
-                    Tweet is required.<br>
-                </small>
-                <small *ngIf="tweet?.errors?.['maxlength']">
-                    Tweet cannot exceed 144 Characters.<br>
-                </small>
+<div class="container-fluid">
+    <div class="row mt-2">
+        <div class="col-md-3 fixed">
+            <div class="d-flex flex-column sticky-bottom">
+                <app-user-list (userTweetEmitter)="getTweetsOfUserFromUsersList($event)"></app-user-list>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex flex-column">
+                <app-tweet-list [tweetsInfo]="ReceivedTweets" (updateTagsEventEmitter)="getTagsUpdateStatus($event)">
+                </app-tweet-list>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="d-flex flex-column">
+                <div><h2 class="mb-0">Trend for you</h2></div>
+                <app-tags (tagsTweetEmitter)="getTrendingTweetsFromTags($event)" [updateTags]="updateTags"></app-tags>
             </div>
         </div>
     </div>
-    <button class="" (click)="post()">Post</button>
-
-    <app-header></app-header>
-    <br>
-    <app-users></app-users>
 </div>

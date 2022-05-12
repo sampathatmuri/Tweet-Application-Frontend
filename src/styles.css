@@ -1,1 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Rules for sizing the icon. */
+mat-icon {
+    cursor: pointer;
+}
+
+mat-icon.md-18 {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+mat-icon.size-100 {
+    -webkit-user-select: none;
+    user-select: none;
+    background-repeat: no-repeat;
+    display: inline-block;
+    fill: currentColor;
+    font-size: 100px;
+    height: 100px;
+    width: 100px;
+}
+
+.users-list,
+.tweets-list {
+    max-height: 300px;
+    margin-bottom: 10px;
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}

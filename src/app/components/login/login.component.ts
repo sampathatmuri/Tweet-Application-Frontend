@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
@@ -21,14 +21,14 @@ export class LoginComponent implements OnInit {
   ) { }
 
   loginForm = this._formBuilder.group({
-    emailId: [''],
-    password: [''],
+    emailId: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+    password: ['', [Validators.required, Validators.pattern('((?=.*\\d)(?=.*[a-zA-Z])\\S{6,20})')]],
   })
 
   ngOnInit(): void {
     this.login();
   }
-  
+
   login(): void {
     var login = this._storageService.validateToken();
     if (login == true) {
@@ -36,28 +36,27 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  submit() {
+  onSubmit() {
     this._authService.authenticate(this.loginForm.value).subscribe(
       response => {
-        const id = this.loginForm.controls['emailId'].value;
+        const id = this.emailId?.value;
         this._storageService.saveId(id);
-        console.log("Output "+response.body);
         const token = response.body.token;
         this._storageService.saveToken(token);
-        this._toastrService.success('Your request is Successful', 'Success', { timeOut: 2000, });
-        setTimeout( () => {
+        this._toastrService.success('Login Successful', 'Success', { timeOut: 1000, });
+        setTimeout(() => {
           this.loginForm.reset();
           this.login();
-        }, 2000);
+        }, 1000);
       },
-      error => {
-        this._toastrService.error(error.error, 'Error', { timeOut: 2000, });
+      errorObj => {
+        this._toastrService.error(errorObj.error.message, 'Login Failed !!!', { timeOut: 2000, });
       }
     )
   }
 
-  get username() {
-    return this.loginForm.get('username');
+  get emailId() {
+    return this.loginForm.get('emailId');
   }
   get password() {
     return this.loginForm.get('password');

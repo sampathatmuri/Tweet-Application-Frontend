@@ -1,98 +1,104 @@
-<div class="container" [formGroup]="registerForm">
-    <h2>Register</h2>
-    <div class="row">
-        <div class="col-12 col-md-6">
-            <label for="firstName">First Name: </label>
-            <input id="firstName" class="w-100" type="text" formControlName="firstName">
-            <div class="text-danger" *ngIf="(firstName?.touched || firstName?.dirty) && firstName?.invalid">
-                <small *ngIf="firstName?.errors?.['required']">
-                    First Name is required.<br>
-                </small>
-                <small *ngIf="firstName?.errors?.['maxlength']">
-                    First Name cannot exceed 25 Characters.<br>
-                </small>
-                <small *ngIf="firstName?.errors?.['pattern']">
-                    First Name can only contain Alphabets.<br>
-                </small>
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <label for="lastName">Last Name: </label>
-            <input id="lastName" class="w-100" type="text" formControlName="lastName">
-            <div class="text-danger" *ngIf="(lastName?.touched || lastName?.dirty) && lastName?.invalid">
-                <small *ngIf="lastName?.errors?.['required']">
-                    Last Name is required.<br>
-                </small>
-                <small *ngIf="lastName?.errors?.['maxlength']">
-                    Last Name cannot exceed 25 Characters.<br>
-                </small>
-                <small *ngIf="lastName?.errors?.['pattern']">
-                    Last Name can only contain Alphabets.<br>
-                </small>
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <label for="email">Email: </label>
-            <input id="email" class="w-100" type="email" formControlName="email">
-            <div class="text-danger" *ngIf="(email?.touched || email?.dirty) && email?.invalid">
-                <small *ngIf="email?.errors?.['required']">
-                    Email is required.<br>
-                </small>
-                <small *ngIf="email?.errors?.['pattern']">
-                    Enter a valid Email.<br>
-                </small>
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <label for="password">Password: </label>
-            <input id="password" class="w-100" type="text" formControlName="password">
-            <div class="text-danger" *ngIf="(password?.touched || password?.dirty) && password?.invalid">
-                <small *ngIf="password?.errors?.['required']">
-                    Password is required.<br>
-                </small>
-                <small *ngIf="password?.errors?.['minlength']">
-                    Password should have atleast 8 Characters.<br>
-                </small>
-                <small *ngIf="password?.errors?.['pattern']">
-                    Password should contain atleast 1 digit, 1 capital letter, 1 small letter, 1 special character.<br>
-                </small>
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <label for="confirmPassword">Confirm Password: </label>
-            <input id="confirmPassword" class="w-100" type="text" formControlName="confirmPassword">
-            <div class="text-danger" *ngIf="(confirmPassword?.touched || confirmPassword?.dirty) && confirmPassword?.invalid">
-                <small *ngIf="confirmPassword?.errors?.['required']">
-                    Confirm Password is required.<br>
-                </small>
-                <small *ngIf="confirmPassword?.errors?.['didnotMatch']">
-                    Passwords did not Match.<br>
-                </small>
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <label for="mobileNo">Mobile No: </label>
-            <input id="mobileNo" class="w-100" type="text" formControlName="mobileNo">
-            <div class="text-danger" *ngIf="(mobileNo?.touched || mobileNo?.dirty) && mobileNo?.invalid">
-                <small *ngIf="mobileNo?.errors?.['required']">
-                    Mobile no is required.<br>
-                </small>
-                <small *ngIf="mobileNo?.errors?.['minlength']">
-                    Mobile should contain exactly 10 Characters.<br>
-                </small>
-                <small *ngIf="mobileNo?.errors?.['maxlength']">
-                    Mobile should contain exactly 10 Characters.<br>
-                </small>
-                <small *ngIf="mobileNo?.errors?.['pattern']">
-                    Mobile No should contain only digits.<br>
-                </small>
-            </div>
-        </div>
-    </div>
-    <button type="submit" (click)="register()" [disabled]="registerForm.invalid">Register</button>
-    <button routerLink="/login">Return to Login Page</button>
-</div>
 <div class="container">
-    <p>Form Value: {{registerForm.value | json}}</p>
-    <p>Form Status: {{ confirmPassword?.status }}</p>
+    <h4 class="text-center mt-4 mb-4" style="text-transform: uppercase;">Register</h4>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <div class="form-outline mb-4">
+            <div class="form-group col-md-12">
+                <label class="form-label" for="firstName">First Name:</label>
+                <input id="firstName" class="form-control" type="text" formControlName="firstName">
+                <small class="text-danger" *ngIf="(firstName?.touched || firstName?.dirty) && firstName?.invalid">
+                    <span *ngIf="firstName?.errors?.['required']">
+                        First Name is required.<br>
+                    </span>
+                    <span *ngIf="firstName?.errors?.['maxlength']">
+                        First Name cannot exceed 25 Characters.<br>
+                    </span>
+                    <span *ngIf="firstName?.errors?.['pattern']">
+                        First Name can only contain Alphabets.<br>
+                    </span>
+                </small>
+            </div>
+        </div>
+        <div class="form-outline mb-4">
+            <div class="form-group col-md-12">
+                <label class="form-label" for="lastName">Last Name:</label>
+                <input id="lastName" class="form-control" type="text" formControlName="lastName">
+                <small class="text-danger" *ngIf="(lastName?.touched || lastName?.dirty) && lastName?.invalid">
+                    <span *ngIf="lastName?.errors?.['required']">
+                        Last Name is required.<br>
+                    </span>
+                    <span *ngIf="lastName?.errors?.['maxlength']">
+                        Last Name cannot exceed 25 Characters.<br>
+                    </span>
+                    <span *ngIf="lastName?.errors?.['pattern']">
+                        Last Name can only contain Alphabets.<br>
+                    </span>
+                </small>
+            </div>
+        </div>
+        <div class="form-outline mb-4">
+            <div class="form-group col-md-12">
+                <label class="form-label" for="email">Email:</label>
+                <input id="email" class="form-control" type="email" formControlName="emailId">
+                <small class="text-danger" *ngIf="(emailId?.touched || emailId?.dirty) && emailId?.invalid">
+                    <span *ngIf="emailId?.errors?.['required']">
+                        Email is required.
+                    </span>
+                    <span *ngIf="emailId?.errors?.['pattern']">
+                        Enter a valid Email.
+                    </span>
+                </small>
+            </div>
+        </div>
+        <div class="form-outline mb-4">
+            <div class="form-group col-md-12">
+                <label class="form-label" for="password">Password:</label>
+                <input id="password" class="form-control" type="text" formControlName="password">
+                <small class="text-danger" *ngIf="(password?.touched || password?.dirty) && password?.invalid">
+                    <span *ngIf="password?.errors?.['required']">
+                        Password is required.
+                    </span>
+                    <span *ngIf="password?.errors?.['pattern']">
+                        Your password must be 6-20 characters long, contain letters and numbers, and
+                        must not contain spaces, special characters.
+                    </span>
+                </small>
+            </div>
+        </div>
+        <div class="form-outline mb-4">
+            <div class="form-group col-md-12">
+                <label class="form-label" for="confirmPassword">Confirm Password:</label>
+                <input id="confirmPassword" class="form-control" type="text" formControlName="confirmPassword">
+                <small class="text-danger"
+                    *ngIf="(confirmPassword?.touched || confirmPassword?.dirty) && confirmPassword?.invalid">
+                    <span *ngIf="confirmPassword?.errors?.['required']">
+                        Confirm Password is required.<br>
+                    </span>
+                    <span *ngIf="confirmPassword?.errors?.['didnotMatch']">
+                        Password must match with given password.<br>
+                    </span>
+                </small>
+            </div>
+        </div>
+        <div class="form-outline mb-4">
+            <div class="form-group col-md-12">
+                <label class="form-label" for="mobileNo">Mobile No:</label>
+                <input id="mobileNo" class="form-control" type="text" formControlName="contactNumber">
+                <small class="text-danger" *ngIf="(mobileNo?.touched || mobileNo?.dirty) && mobileNo?.invalid">
+                    <span *ngIf="mobileNo?.errors?.['required']">
+                        Mobile no is required.<br>
+                    </span>
+                    <span *ngIf="mobileNo?.errors?.['pattern']">
+                        Mobile no must contain only 10 digits.<br>
+                    </span>
+                </small>
+            </div>
+        </div>
+        <div class="form-outline mb-4">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary btn-block"
+                    [disabled]="registerForm.invalid">Register</button>
+            </div>
+        </div>
+    </form>
+    <button class="btn btn-primary" routerLink="/login" type="button">Back to Login</button>
 </div>

@@ -1,0 +1,21 @@
+<form [formGroup]="replyForm" (ngSubmit)="postReply()">
+    <div class="form-outline mb-4">
+        <div class="form-group col-md-12">
+            <label for="reply">Reply Something: </label>
+            <textarea class="form-control" formControlName="message" placeholder="Reply here"></textarea>
+            <div class="text-danger" *ngIf="(reply?.touched || reply?.dirty) && reply?.invalid">
+                <small *ngIf="reply?.errors?.['required']">
+                    Reply is required.<br>
+                </small>
+                <small *ngIf="reply?.errors?.['maxlength']">
+                    Reply cannot exceed 144 Characters.<br>
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="form-outline mb-4">
+        <div class="col-md-12">
+            <button class="btn btn-primary btn-block" [disabled]="replyForm.invalid">Post</button>
+        </div>
+    </div>
+</form>

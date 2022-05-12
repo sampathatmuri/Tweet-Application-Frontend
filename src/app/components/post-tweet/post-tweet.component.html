@@ -1,0 +1,21 @@
+<form [formGroup]="tweetForm" (ngSubmit)="postTweet()">
+    <div class="form-outline mb-4">
+        <div class="form-group col-md-12">
+            <!-- <label for="tweet" class="h3">Tweet Something: </label> -->
+            <textarea class="form-control" formControlName="message" placeholder="what's happening?"></textarea>
+            <div class="text-danger" *ngIf="(tweet?.touched || tweet?.dirty) && tweet?.invalid">
+                <small *ngIf="tweet?.errors?.['required']">
+                    Tweet is required.<br>
+                </small>
+                <small *ngIf="tweet?.errors?.['maxlength']">
+                    Tweet cannot exceed 144 Characters.<br>
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="form-outline mb-4">
+        <div class="col-md-12">
+            <button class="btn btn-primary btn-block" [disabled]="tweetForm.invalid">Tweet</button>
+        </div>
+    </div>
+</form>
