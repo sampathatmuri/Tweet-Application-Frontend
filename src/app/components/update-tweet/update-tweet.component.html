@@ -1,11 +1,11 @@
 <div [formGroup]="updateTweetForm" class="d-flex align-items-end">
     <div class="d-flex flex-column flex-fill">
         <textarea autosize class="mb-0 form-control bg-light disable-resize" title="Tweet Message"
-            formControlName="message" [readonly]="!isEnabled" placeholder="Tweet Message"
+            formControlName="message" (input)="updateMaxLength()" [readonly]="!isEnabled" placeholder="Tweet Message"
             [ngClass]="{'border-0':!isEnabled}"></textarea>
         <small class="text-danger" *ngIf="(message?.touched || message?.dirty) && message?.invalid">
             <span *ngIf="message?.errors?.['maxlength']">
-                Tweet cannot exceed 144 Characters.<br>
+                Tweet cannot exceed {{maxlength}} Characters.<br>
             </span>
         </small>
     </div>

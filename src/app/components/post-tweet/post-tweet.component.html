@@ -1,11 +1,11 @@
 <form [formGroup]="tweetForm" (ngSubmit)="postTweet()">
     <div class="form-outline mb-4">
         <div class="form-group col-md-12">
-            <textarea autosize class="form-control disable-resize" formControlName="message"
+            <textarea autosize class="form-control disable-resize" formControlName="message" (input)="updateMaxLength()"
                 placeholder="what's happening?"></textarea>
             <small class="text-danger" *ngIf="(message?.touched || message?.dirty) && message?.invalid">
                 <span *ngIf="message?.errors?.['maxlength']">
-                    Tweet cannot exceed 144 Characters.<br>
+                    Tweet cannot exceed {{maxlength}} Characters.<br>
                 </span>
             </small>
         </div>

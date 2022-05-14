@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Observable, of, map } from 'rxjs';
 import { Tweet } from 'src/app/dto/tweet';
 import { TweetService } from 'src/app/services/tweet.service';
 
@@ -12,6 +13,7 @@ import { TweetService } from 'src/app/services/tweet.service';
 export class PostTweetComponent implements OnInit {
 
   @Output() postTweetEvent = new EventEmitter<Tweet>();
+  maxlength: number = 144;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,8 +25,14 @@ export class PostTweetComponent implements OnInit {
   }
 
   tweetForm = this.formBuilder.group({
-    message: ['', [Validators.required, Validators.maxLength(144)]]
+    message: ['', [Validators.required, Validators.maxLength(this.maxlength)]]
   });
+
+  updateMaxLength() {
+    this.maxlength = (this.message?.value.includes("#")) ? 194 : 144;
+    this.message?.setValidators([Validators.maxLength(this.maxlength)]);
+    this.message?.updateValueAndValidity();
+  }
 
   postTweet() {
     this.tweetService.postTweet(this.tweetForm.value).subscribe(

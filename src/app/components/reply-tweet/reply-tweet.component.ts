@@ -14,6 +14,7 @@ export class ReplyTweetComponent implements OnInit {
 
   @Input() currTweet!: Tweet;
   @Output() repliedTweetEvent = new EventEmitter<Tweet>();
+  maxlength: number = 144;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,9 +27,14 @@ export class ReplyTweetComponent implements OnInit {
   }
 
   replyForm = this.formBuilder.group({
-    message: ['', [Validators.required, Validators.maxLength(144)]]
+    message: ['', [Validators.required, Validators.maxLength(this.maxlength)]]
   });
 
+  updateMaxLength() {
+    this.maxlength = (this.message?.value.includes("#")) ? 194 : 144;
+    this.message?.setValidators([Validators.maxLength(this.maxlength)]);
+    this.message?.updateValueAndValidity();
+  }
   postReply(): void {
     let emailId = this.storageService.getId();
     let tweetId = this.currTweet?.tweetId;

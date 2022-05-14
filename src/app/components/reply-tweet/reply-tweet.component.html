@@ -1,10 +1,10 @@
 <form class="pt-2" [formGroup]="replyForm" (ngSubmit)="postReply()">
     <div class="form-outline mb-4">
         <div class="form-group col-md-12">
-            <textarea autosize class="form-control disable-resize" formControlName="message" placeholder="Reply here"></textarea>
+            <textarea autosize class="form-control disable-resize" (input)="updateMaxLength()" formControlName="message" placeholder="Reply here"></textarea>
             <small class="text-danger" *ngIf="(message?.touched || message?.dirty) && message?.invalid">
                 <span *ngIf="message?.errors?.['maxlength']">
-                    Reply cannot exceed 144 Characters.<br>
+                    Tweet cannot exceed {{maxlength}} Characters.<br>
                 </span>
             </small>
         </div>

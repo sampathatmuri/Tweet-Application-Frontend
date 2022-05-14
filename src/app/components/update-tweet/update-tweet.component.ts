@@ -20,21 +20,29 @@ export class UpdateTweetComponent implements OnInit {
 
   @Input() isEnabled: boolean = false;
 
+  maxlength: number = 144;
+
   constructor(
     private formBuilder: FormBuilder,
     private tweetService: TweetService,
     private toastrService: ToastrService,
     private storageService: StorageService,) { }
 
-  ngOnChanges(changes:SimpleChanges){
+  ngOnChanges(changes: SimpleChanges) {
     this.updateTweetForm.setValue({ 'message': this.currTweet.message });
   }
   ngOnInit(): void {
   }
 
   updateTweetForm = this.formBuilder.group({
-    message: ['', [Validators.required, Validators.maxLength(144)]]
+    message: ['', [Validators.required, Validators.maxLength(this.maxlength)]]
   });
+
+  updateMaxLength() {
+    this.maxlength = (this.message?.value.includes("#")) ? 194 : 144;
+    this.message?.setValidators([Validators.maxLength(this.maxlength)]);
+    this.message?.updateValueAndValidity();
+  }
 
   updateTweet(updatedMsg: string): void {
     let emailId = this.storageService.getId();
@@ -49,7 +57,7 @@ export class UpdateTweetComponent implements OnInit {
       })
   }
 
-  emitCancelEnableEvent(){
+  emitCancelEnableEvent() {
     this.updateTweetForm.setValue({ 'message': this.currTweet.message });
     this.isEnabledChange.emit(false)
   }
