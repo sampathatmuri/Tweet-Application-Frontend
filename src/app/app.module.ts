@@ -26,6 +26,7 @@ import { TagsComponent } from './components/tags/tags.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { AutosizeModule } from 'ngx-autosize';
 import { UpdateTweetComponent } from './components/update-tweet/update-tweet.component';
+import { ReplyListComponent } from './components/reply-list/reply-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +44,7 @@ import { UpdateTweetComponent } from './components/update-tweet/update-tweet.com
     TagsComponent,
     DateAgoPipe,
     UpdateTweetComponent,
+    ReplyListComponent,
   ],
   imports: [
     BrowserModule, AppRoutingModule, BrowserAnimationsModule,

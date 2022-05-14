@@ -1,5 +1,7 @@
-<div *ngFor="let tag of trendingTags">
-
-    <button class="btn btn-link" (click)="getTrendingTweets(tag.tagName)">{{tag.tagName}}</button>
-
+<ul class="p-0 list-unstyled" *ngIf="isTrendingTagsAvailable">
+    <li *ngFor="let tag of tags"><button type="button" class="btn btn-link px-0"
+            (click)="getTrendingTweets(tag.tagName)">{{tag.tagName}}</button></li>
+</ul>
+<div *ngIf="!isTrendingTagsAvailable" class="alert alert-danger text-center">
+    <p class="m-0">No tags available. Tag something</p>
 </div>

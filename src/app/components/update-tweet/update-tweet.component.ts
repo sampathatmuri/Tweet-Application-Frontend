@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Tweet } from 'src/app/helper/dto/tweet';
@@ -26,8 +26,10 @@ export class UpdateTweetComponent implements OnInit {
     private _toastrService: ToastrService,
     private storageService: StorageService,) { }
 
-  ngOnInit(): void {
+  ngOnChanges(changes:SimpleChanges){
     this.updateTweetForm.setValue({ 'message': this.currTweet.message });
+  }
+  ngOnInit(): void {
   }
 
   updateTweetForm = this._formBuilder.group({
@@ -39,6 +41,7 @@ export class UpdateTweetComponent implements OnInit {
     let tweetId = this.currTweet?.tweetId;
     this._tweetService.updateTweetFromApi(emailId!, tweetId, { "message": updatedMsg }).subscribe(response => {
       this.updateTweetEvent.emit(response);
+      this.emitCancelEnableEvent();
       this._toastrService.success('Updated Successfully', 'Success', { timeOut: 1000, });
     },
       errorObj => {
@@ -47,6 +50,7 @@ export class UpdateTweetComponent implements OnInit {
   }
 
   emitCancelEnableEvent(){
+    this.updateTweetForm.setValue({ 'message': this.currTweet.message });
     this.isEnabledChange.emit(false)
   }
 

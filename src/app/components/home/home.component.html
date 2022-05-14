@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row mt-2">
-        <div class="col-md-3 fixed">
+        <div class="col-md-3">
             <div class="d-flex flex-column sticky-bottom">
                 <app-user-list (userTweetEmitter)="getTweetsOfUserFromUsersList($event)"></app-user-list>
             </div>
@@ -12,9 +12,9 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="d-flex flex-column">
-                <div><h2 class="mb-0">Trend for you</h2></div>
-                <app-tags (tagsTweetEmitter)="getTrendingTweetsFromTags($event)" [updateTags]="updateTags"></app-tags>
+            <div class="card d-flex flex-column p-4">
+                <h2 class="card-title m-0">Trend for you</h2>
+                <app-tags class="card-body p-0" (tagsTweetEmitter)="getTrendingTweetsFromTags($event)" [updateTags]="updateTags"></app-tags>
             </div>
         </div>
     </div>

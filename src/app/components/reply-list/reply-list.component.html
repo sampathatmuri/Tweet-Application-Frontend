@@ -1,0 +1,23 @@
+<ul class="pl-0" *ngIf="tweet.replies!=null">
+    <li *ngFor="let reply of tweet.replies" class="card mx-2 mb-2">
+        <div class="card-body pb-2">
+            <div class="d-flex">
+                <div>
+                    <img src="../../../assets/images/person-icon.svg" width="35" height="35" alt="Profile">
+                </div>
+                <div class="d-flex flex-column flex-fill pl-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex flex-column">
+                            <button type="button" class="btn btn-link p-0">@{{tweet.emailId.split('@')[0]}}</button>
+                            <p class="text-muted small mb-0">{{tweet.createdAt | dateAgo}}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex py-2">
+                        <textarea autosize class="form-control bg-light disable-resize border-0"
+                            placeholder="what's happening?" readonly>{{reply.message}}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>

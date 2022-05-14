@@ -130,8 +130,8 @@ export class TweetListComponent implements OnInit {
     this.replyIndex = -1
   }
 
-  get isTweetsEmpty(): boolean {
-    return this.tweetsInfo == null || this.tweetsInfo?.length == 0;
+  get isTweetsAvailable(): boolean {
+    return this.tweetsInfo != null && this.tweetsInfo.length > 0;
   }
 
   get tweets(): any {

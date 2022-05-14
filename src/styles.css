@@ -12,7 +12,7 @@ body {
 }
 
 /* Rules for sizing the icon. */
-mat-icon {
+mat-icon,button {
     cursor: pointer;
 }
 

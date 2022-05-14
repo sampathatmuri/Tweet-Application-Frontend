@@ -5,20 +5,18 @@
     <ul class="users-list mb-0 pl-0">
         <li *ngFor="let user of users" class="card shadow-sm mb-2">
             <div class="card-body shadow-lg">
-                <div class="d-flex flex-row">
-                    <div class="my-auto px-2"><img src="../../../assets/images/person-icon.svg" width="35" height="35"
+                <div class="d-flex flex-md-column flex-sm-row flex-lg-row">
+                    <div class="m-auto px-4"><img src="../../../assets/images/person-icon.svg" width="35" height="35"
                             alt="Profile"></div>
-                    <div class="d-flex flex-column flex-fill px-2">
+                    <div class="d-flex flex-column flex-fill align-items-sm-start align-items-md-center align-items-lg-start">
                         <div>
-                            <button type="button" class="btn btn-link"
+                            <button type="button" class="btn btn-link px-0"
                                 (click)="getAllTweetsOfUser(user.emailId)">@{{user.emailId.split('@')[0]}}</button>
                         </div>
-                        <div class="d-flex pl-3 small">
-                            <mat-icon class="md-18">contact_mail</mat-icon>
+                        <div class="d-flex">
                             <span>{{user.firstName}}&nbsp;{{user.lastName}}</span>
                         </div>
-                        <div class="d-flex pl-3 small">
-                            <mat-icon class="md-18"> contact_phone</mat-icon>
+                        <div class="d-flex small">
                             <span>{{user.contactNumber}}</span>
                         </div>
                     </div>

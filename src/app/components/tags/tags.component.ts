@@ -11,11 +11,11 @@ import { TagsService } from 'src/app/services/tags.service';
 })
 export class TagsComponent implements OnInit {
 
-  trendingTags!: Tags[];
+  private trendingTags!: Tags[];
   @Output() tagsTweetEmitter = new EventEmitter<Tweet[]>();
   @Input() updateTags!: boolean;
 
-  constructor(private tags: TagsService, private _toastrService: ToastrService) { }
+  constructor(private tagService: TagsService, private _toastrService: ToastrService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.updateTags) {
@@ -28,7 +28,7 @@ export class TagsComponent implements OnInit {
   }
 
   public getTrendingTags() {
-    this.tags.getTrendingTagsFromApi().subscribe(response => {
+    this.tagService.getTrendingTagsFromApi().subscribe(response => {
       this.trendingTags = response;
     },
       errorObj => {
@@ -37,7 +37,7 @@ export class TagsComponent implements OnInit {
   }
 
   public getTrendingTweets(tagName: string) {
-    this.tags.getTrendingTweetByTagFromApi(tagName.replace('#', "")).subscribe(response => {
+    this.tagService.getTrendingTweetByTagFromApi(tagName.replace('#', "")).subscribe(response => {
       this.sendTrendingTweetsToHome(response);
     },
       errorObj => {
@@ -48,6 +48,14 @@ export class TagsComponent implements OnInit {
 
   private sendTrendingTweetsToHome(tweets: any) {
     this.tagsTweetEmitter.emit(tweets);
+  }
+
+  get isTrendingTagsAvailable(): boolean {
+    return this.trendingTags != null && this.trendingTags.length > 0;
+  }
+
+  get tags():Tags[]{
+    return this.trendingTags;
   }
 
 }
