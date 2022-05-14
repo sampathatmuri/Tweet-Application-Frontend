@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Tweet } from 'src/app/helper/dto/tweet';
 import { StorageService } from 'src/app/services/storage.service';
@@ -18,7 +19,8 @@ export class TweetListComponent implements OnInit {
   @Output() updateTagsEventEmitter = new EventEmitter<boolean>();
 
 
-  constructor(private tweetService: TweetService,
+  constructor(
+    private tweetService: TweetService,
     private _toastrService: ToastrService,
     private storageService: StorageService
   ) { }
@@ -60,25 +62,10 @@ export class TweetListComponent implements OnInit {
       })
   }
 
-  updateTweet(index: number, updatedMsg: string): void {
-    let emailId = this.storageService.getId();
-    let tweetId = this.tweetsInfo[index].tweetId;
-    this.tweetService.updateTweetFromApi(emailId!, tweetId, { "message": updatedMsg }).subscribe(response => {
-      this.tweetsInfo[index].message = response.message;
-      this.resetMsgBoxEnabledIndex();
-      this.updateTagsPanel();
-      this._toastrService.success('Updated Successfully', 'Success', { timeOut: 1000, });
-    },
-      errorObj => {
-        console.log(errorObj)
-        this._toastrService.error(errorObj.error.message, 'Update tweets failed !!!', { timeOut: 2000 });
-      })
-  }
-
   private updateTagsPanel() {
     this.updateTagsEventEmitter.emit(true);
   }
-  
+
   private updateTweets(tweet: Tweet) {
     this.tweetsInfo?.push(tweet);
   }
@@ -102,6 +89,10 @@ export class TweetListComponent implements OnInit {
 
   sortByDate() {
     this.tweetsInfo = this.tweetsInfo?.sort((t1, t2) => { return 0 - (t1.createdAt < t2.createdAt ? -1 : 1) })
+  }
+
+  updateTweet(tweet: Tweet, currIndex: number) {
+    this.tweetsInfo[currIndex] = tweet;
   }
 
   updateRepliedTweet(tweet: Tweet, currIndex: number) {

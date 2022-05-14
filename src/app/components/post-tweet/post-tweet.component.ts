@@ -41,7 +41,7 @@ export class PostTweetComponent implements OnInit {
     );
   }
 
-  get tweet() {
-    return this.tweetForm.get('tweet');
+  get message() {
+    return this.tweetForm.get('message');
   }
 }

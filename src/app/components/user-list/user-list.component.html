@@ -1,9 +1,10 @@
 <app-profile></app-profile>
-<div *ngIf="!isUsersEmpty" class="card mb-2">
-    <div class="border-bottom border-secondary card-title rounded-top h5 text-center bg-info text-white mb-0 py-2">Users</div>
-    <div class="card-body p-0">
-        <ul class="d-flex list-group users-list">
-            <li *ngFor="let user of users" class="shadow mb-1 list-group-item">
+<div *ngIf="!isUsersEmpty" class="card">
+    <div class="border-bottom border-secondary card-title rounded-top h5 text-center bg-info text-white mb-0 py-2">Users
+    </div>
+    <ul class="users-list mb-0 pl-0">
+        <li *ngFor="let user of users" class="card shadow-sm mb-2">
+            <div class="card-body shadow-lg">
                 <div class="d-flex flex-row">
                     <div class="my-auto px-2"><img src="../../../assets/images/person-icon.svg" width="35" height="35"
                             alt="Profile"></div>
@@ -22,7 +23,7 @@
                         </div>
                     </div>
                 </div>
-            </li>
-        </ul>
-    </div>
+            </div>
+        </li>
+    </ul>
 </div>

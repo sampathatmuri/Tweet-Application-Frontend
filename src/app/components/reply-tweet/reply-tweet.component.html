@@ -1,15 +1,12 @@
-<form [formGroup]="replyForm" (ngSubmit)="postReply()">
+<form class="pt-2" [formGroup]="replyForm" (ngSubmit)="postReply()">
     <div class="form-outline mb-4">
         <div class="form-group col-md-12">
-            <textarea class="form-control" formControlName="message" placeholder="Reply here" rows="3"></textarea>
-            <div class="text-danger" *ngIf="(reply?.touched || reply?.dirty) && reply?.invalid">
-                <small *ngIf="reply?.errors?.['required']">
-                    Reply is required.<br>
-                </small>
-                <small *ngIf="reply?.errors?.['maxlength']">
+            <textarea autosize class="form-control disable-resize" formControlName="message" placeholder="Reply here"></textarea>
+            <small class="text-danger" *ngIf="(message?.touched || message?.dirty) && message?.invalid">
+                <span *ngIf="message?.errors?.['maxlength']">
                     Reply cannot exceed 144 Characters.<br>
-                </small>
-            </div>
+                </span>
+            </small>
         </div>
     </div>
     <div class="form-outline mb-4">

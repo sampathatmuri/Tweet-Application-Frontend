@@ -1,0 +1,15 @@
+<form [formGroup]="updateTweetForm">
+    <textarea autosize class="mb-0 form-control bg-light disable-resize" title="Tweet Message" formControlName="message"
+        [readonly]="!isEnabled" placeholder="Tweet Message" [ngClass]="{'border-0':!isEnabled}"></textarea>
+    <small class="text-danger" *ngIf="(message?.touched || message?.dirty) && message?.invalid">
+        <span *ngIf="message?.errors?.['maxlength']">
+            Reply cannot exceed 144 Characters.<br>
+        </span>
+    </small>
+    <div class="d-flex pl-2" *ngIf="isEnabled">
+        <mat-icon class="md-18" [ngStyle]="{'color':'green'}" (click)="updateTweet(message?.value)">
+            done</mat-icon>
+        <mat-icon class="md-18" color="warn" (click)="emitCancelEnableEvent()">close
+        </mat-icon>
+    </div>
+</form>

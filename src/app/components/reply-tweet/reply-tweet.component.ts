@@ -32,8 +32,6 @@ export class ReplyTweetComponent implements OnInit {
   postReply(): void {
     let emailId = this.storageService.getId();
     let tweetId = this.currTweet?.tweetId;
-    console.log(JSON.stringify(this.currTweet))
-    console.log(this.replyForm.value)
     this._tweetService.replyTweetFromApi(emailId!, tweetId, this.replyForm.value).subscribe(response => {
       this.repliedTweetEvent.emit(response);
       this._toastrService.success('Reply Posted Successfully', 'Success', { timeOut: 1000, });
@@ -43,7 +41,7 @@ export class ReplyTweetComponent implements OnInit {
       })
   }
 
-  get reply() {
-    return this.replyForm.get('reply');
+  get message() {
+    return this.replyForm.get('message');
   }
 }

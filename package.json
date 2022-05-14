@@ -24,6 +24,7 @@
     "@ng-bootstrap/schematics": "^2.0.0-alpha.1",
     "bootstrap": "^4.0.0",
     "file-saver": "^2.0.5",
+    "ngx-autosize": "^1.8.7",
     "ngx-toastr": "^14.3.0",
     "ngx-uploader": "^11.0.0",
     "rxjs": "~7.5.0",

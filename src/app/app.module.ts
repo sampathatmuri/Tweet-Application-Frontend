@@ -24,6 +24,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { ReplyTweetComponent } from './components/reply-tweet/reply-tweet.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
+import { AutosizeModule } from 'ngx-autosize';
+import { UpdateTweetComponent } from './components/update-tweet/update-tweet.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,12 +41,13 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
     UserListComponent,
     ReplyTweetComponent,
     TagsComponent,
-    DateAgoPipe
+    DateAgoPipe,
+    UpdateTweetComponent,
   ],
   imports: [
     BrowserModule, AppRoutingModule, BrowserAnimationsModule,
     ReactiveFormsModule, HttpClientModule, NgxUploaderModule,
-    NgbModule, MatIconModule, MatBadgeModule,
+    NgbModule, MatIconModule, MatBadgeModule,AutosizeModule,
     ToastrModule.forRoot({
       timeOut: 10000,
       positionClass: 'toast-bottom-right',

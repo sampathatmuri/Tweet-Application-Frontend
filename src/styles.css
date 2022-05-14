@@ -39,6 +39,10 @@ mat-icon.size-100 {
     width: 100px;
 }
 
+textarea.disable-resize{
+    resize: none;
+}
+
 .users-list,
 .tweets-list {
     max-height: 300px;
