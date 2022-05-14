@@ -14,7 +14,7 @@ import { StorageService } from 'src/app/services/storage.service';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  private otp!: string;
+  private receivedOTP!: string;
   public isOTPSent: boolean = false;
 
   constructor(private http: HttpClient,
@@ -30,16 +30,20 @@ export class ForgotPasswordComponent implements OnInit {
 
   resetPswdForm = this._formBuilder.group({
     emailId: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
-    sentOTP: ['', [Validators.required, Validators.pattern('^\\d{4}$')]],
+    sentOTP: ['', [Validators.required, Validators.pattern('^\\d{4}$')], [this.otpValidator()]],
     newPassword: ['', [Validators.required, Validators.minLength(6), Validators.pattern('((?=.*\\d)(?=.*[a-zA-Z])\\S{6,20})')]],
-    confirmPassword: ['', [Validators.required], [this.customValidator()]],
+    confirmPassword: ['', [Validators.required], [this.confirmPswdValidator()]],
   });
 
   checkIfPasswordsAreDifferent(pass: string, conpass: string): Observable<boolean> {
     return of(pass != conpass);
   }
 
-  customValidator(): AsyncValidatorFn {
+  checkIfOTPsAreDifferent(sentOTP: string, receivedOTP: string): Observable<boolean> {
+    return of(receivedOTP != sentOTP);
+  }
+
+  confirmPswdValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.checkIfPasswordsAreDifferent(this.resetPswdForm.controls['newPassword'].value,
         this.resetPswdForm.controls['confirmPassword'].value).pipe(
@@ -47,6 +51,16 @@ export class ForgotPasswordComponent implements OnInit {
             return res ? { didnotMatch: true } : null;
           })
         )
+    }
+  }
+
+  otpValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return this.checkIfOTPsAreDifferent(this.resetPswdForm.controls['sentOTP'].value, this.receivedOTP).pipe(
+        map(res => {
+          return res ? { didnotMatch: true } : null;
+        })
+      )
     }
   }
 
@@ -59,48 +73,35 @@ export class ForgotPasswordComponent implements OnInit {
     }, err => {
       this.resetOTPandSentStatus();
       this._toastrService.error(JSON.parse(err.error).message, 'Failed', { timeOut: 2000, });
-      console.log(JSON.parse(err.error).message)
     })
   }
 
   resetPassword() {
-    console.log("Called resetPassword");
-    let isValid: boolean = this.validateOTP(this.OTP?.value);
-    if (isValid) {
-      this.authService.changePassword(this.emailId?.value, this.newPassword?.value).subscribe(response => {
-        this.resetOTPandSentStatus();
-        this._toastrService.success(response.body, 'Success', { timeOut: 1000, });
-        console.log(response.body);
-        setTimeout(() => {
-          this.resetPswdForm.reset();
-          this._storageService.removeToken();
-          this._router.navigate(['/login'])
-        }, 1000);
-      }, err => {
-        this._toastrService.error(JSON.parse(err.error).message, 'Failed', { timeOut: 2000, });
-        console.log(JSON.parse(err.error).message)
-      })
-    }
-    else {
-      this._toastrService.error("Enter OTP sent to your mail", 'Invalid OTP', { timeOut: 2000, });
-    }
-  }
+    this.authService.changePassword(this.emailId?.value, this.newPassword?.value).subscribe(response => {
+      this.resetOTPandSentStatus();
+      this._toastrService.success(response.body, 'Success', { timeOut: 1000, });
+      setTimeout(() => {
+        this.resetPswdForm.reset();
+        this._storageService.removeToken();
+        this._router.navigate(['/login'])
+      }, 1000);
+    }, err => {
+      this._toastrService.error(JSON.parse(err.error).message, 'Failed', { timeOut: 2000, });
+    })
 
-  validateOTP(otp: string) {
-    return this.otp === otp;
   }
 
   private setOTPandSentStatus(OTP: string) {
-    this.otp = OTP;
+    this.receivedOTP = OTP;
     this.isOTPSent = true
   }
 
   private resetOTPandSentStatus() {
-    this.otp = ""
+    this.receivedOTP = ""
     this.isOTPSent = false
   }
 
-  get OTP() {
+  get sentOTP() {
     return this.resetPswdForm.get('sentOTP');
   }
 

@@ -8,6 +8,8 @@ const ID_KEY = 'id';
 })
 export class StorageService {
 
+  private ID_KEY!: string | null;
+
   constructor() { }
 
   saveToken(token: string) {
@@ -19,25 +21,24 @@ export class StorageService {
     return window.localStorage.getItem(TOKEN_KEY);
   }
 
-  validateToken():boolean {
-    var token=this.getToken();
-    if(token!=null){
+  validateToken(): boolean {
+    var token = this.getToken();
+    if (token != null) {
       return true;
     }
     return false;
   }
 
   saveId(id: string) {
-    window.localStorage.removeItem(ID_KEY);
-    window.localStorage.setItem(ID_KEY, id);
+    this.ID_KEY = id;
   }
 
   getId() {
-    return window.localStorage.getItem(ID_KEY);
+    return this.ID_KEY;
   }
 
   removeToken() {
-    window.localStorage.removeItem(ID_KEY);
+    this.ID_KEY = null;
     window.localStorage.removeItem(TOKEN_KEY);
   }
 }

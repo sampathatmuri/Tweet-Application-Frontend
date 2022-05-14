@@ -11,6 +11,7 @@ import { StorageService } from 'src/app/services/storage.service';
 export class LogoutComponent implements OnInit {
 
   login: boolean = true;
+  
   constructor(
     private _storageService: StorageService,
     private _router: Router,

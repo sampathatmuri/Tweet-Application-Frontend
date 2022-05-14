@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as fileSaver from 'file-saver';
 import { ToastrService } from 'ngx-toastr';
-import { User } from 'src/app/helper/dto/user';
+import { User } from 'src/app/dto/user';
 import { FileService } from 'src/app/services/file.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UserService } from 'src/app/services/user.service';
@@ -16,7 +16,7 @@ export class ProfileComponent implements OnInit {
   private user!: User;
 
   constructor(private fileService: FileService,
-    private _toastrService: ToastrService,
+    private toastrService: ToastrService,
     private userService: UserService,
     private storageService: StorageService) { }
 
@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
         this.user = response;
       },
         errorObj => {
-          this._toastrService.error(errorObj.error.message, 'Failed !!!', { timeOut: 2000 });
+          this.toastrService.error(errorObj.error.message, 'Failed !!!', { timeOut: 2000 });
         })
     }
   }
@@ -41,10 +41,10 @@ export class ProfileComponent implements OnInit {
       const blob: any = new Blob([response], { type: 'text/json; charset=utf-8' });
       const url = window.URL.createObjectURL(blob);
       fileSaver.saveAs(blob, 'tweets.json');
-      this._toastrService.success('File downloaded successfully', 'Success', { timeOut: 1000, });
+      this.toastrService.success('File downloaded successfully', 'Success', { timeOut: 1000, });
     },
       (errorObj: any) => {
-        this._toastrService.error("Error downloading the file", 'Failed !!!', { timeOut: 2000 });
+        this.toastrService.error("Error downloading the file", 'Failed !!!', { timeOut: 2000 });
       })
   }
 

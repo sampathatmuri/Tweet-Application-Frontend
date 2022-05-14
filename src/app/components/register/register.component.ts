@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable, of } from 'rxjs';
@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
     lastName: ['', [Validators.required, Validators.maxLength(25), Validators.pattern('^[a-zA-Z]+$')]],
     emailId: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
     password: ['', [Validators.required, Validators.pattern('((?=.*\\d)(?=.*[a-zA-Z])\\S{6,20})')]],
-    confirmPassword: ['', [Validators.required], [this.customValidator()]],
+    confirmPassword: ['', [Validators.required], [this.confirmPswdValidator()]],
     contactNumber: ['', [Validators.required, Validators.pattern('^\\d{10}$')]],
   })
   
@@ -34,7 +34,6 @@ export class RegisterComponent implements OnInit {
   register() {
     this._registrationService.postUser(this.registerForm.value).subscribe(
       response => {
-        console.log(response)
         this._toastrService.success('Signup successfull', 'Success', { timeOut: 2000 });
         setTimeout(() => {
           this.registerForm.reset();
@@ -51,7 +50,7 @@ export class RegisterComponent implements OnInit {
     return of(pass != conpass);
   }
 
-  customValidator(): AsyncValidatorFn {
+  confirmPswdValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.checkIfPasswordsAreDifferent(this.registerForm.controls['password'].value,
         this.registerForm.controls['confirmPassword'].value).pipe(
@@ -61,7 +60,6 @@ export class RegisterComponent implements OnInit {
         )
     }
   }
-
 
   get firstName() {
     return this.registerForm.get('firstName');

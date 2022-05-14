@@ -18,8 +18,8 @@
             Sort By
         </button>
         <div class="dropdown-menu dropdown-menu-right" #collapse="ngbCollapse" [(ngbCollapse)]="toggler">
-            <button class="dropdown-item" (click)="sortByLikes()">Likes</button>
-            <button class="dropdown-item" (click)="sortByDate()">Created Date</button>
+            <button class="dropdown-item" (click)="sortByLikes();collapse.toggle()">Likes</button>
+            <button class="dropdown-item" (click)="sortByDate();collapse.toggle()">Created Date</button>
         </div>
     </div>
 </div>

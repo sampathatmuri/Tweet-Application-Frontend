@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Tweet } from 'src/app/helper/dto/tweet';
+import { Tweet } from 'src/app/dto/tweet';
 import { StorageService } from 'src/app/services/storage.service';
 import { TweetService } from 'src/app/services/tweet.service';
 
@@ -12,8 +11,9 @@ import { TweetService } from 'src/app/services/tweet.service';
 })
 export class TweetListComponent implements OnInit {
 
-  private enabledIndex: number = -1;
+  private enabledTweetIndex: number = -1;
   private replyIndex: number = -1;
+  tweetsAvailable: boolean = true;
   toggler: boolean = true
   @Input() tweetsInfo!: Tweet[];
   @Output() updateTagsEventEmitter = new EventEmitter<boolean>();
@@ -21,10 +21,14 @@ export class TweetListComponent implements OnInit {
 
   constructor(
     private tweetService: TweetService,
-    private _toastrService: ToastrService,
+    private toastrService: ToastrService,
     private storageService: StorageService
   ) { }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes['tweetsInfo'].firstChange)
+      this.setTweetsAvailable(changes['tweetsInfo'].currentValue);
+  }
   ngOnInit(): void {
     this.getAllTweets();
   }
@@ -32,9 +36,11 @@ export class TweetListComponent implements OnInit {
   getAllTweets(): void {
     this.tweetService.getAllTweetsFromApi().subscribe(response => {
       this.tweetsInfo = response;
+      this.setTweetsAvailable(this.tweetsInfo);
     },
       errorObj => {
-        this._toastrService.error(errorObj.error.message, 'Fetching tweets failed !!!', { timeOut: 2000 });
+        this.tweetsAvailable = false;
+        this.toastrService.error(errorObj.error.message, 'Failed !!!', { timeOut: 2000 });
       })
   }
 
@@ -45,7 +51,7 @@ export class TweetListComponent implements OnInit {
       this.tweetsInfo[index].likeCount = response.likeCount;
     },
       errorObj => {
-        this._toastrService.error(errorObj.error.message, 'Like tweets failed !!!', { timeOut: 2000 });
+        this.toastrService.error(errorObj.error.message, 'Failed !!!', { timeOut: 2000 });
       })
   }
 
@@ -55,10 +61,11 @@ export class TweetListComponent implements OnInit {
     let tweetId = this.tweetsInfo[index].tweetId;
     this.tweetService.deleteTweetFromApi(emailId!, tweetId).subscribe(response => {
       this.tweetsInfo = this.tweetsInfo.filter(item => item.tweetId !== tweetId);
-      this._toastrService.success('Deleted Successfully', 'Success', { timeOut: 1000, });
+      this.setTweetsAvailable(this.tweetsInfo);
+      this.toastrService.success('Deleted Successfully', 'Success', { timeOut: 1000, });
     },
       errorObj => {
-        this._toastrService.error(errorObj.error.message, 'Delete tweets failed !!!', { timeOut: 2000 });
+        this.toastrService.error(errorObj.error.message, 'Failed !!!', { timeOut: 2000 });
       })
   }
 
@@ -72,6 +79,7 @@ export class TweetListComponent implements OnInit {
 
   addNewTweet(tweet: Tweet) {
     this.updateTweets(tweet);
+    this.tweetsAvailable = true;
     this.updateTagsPanel();
   }
 
@@ -93,6 +101,7 @@ export class TweetListComponent implements OnInit {
 
   updateTweet(tweet: Tweet, currIndex: number) {
     this.tweetsInfo[currIndex] = tweet;
+    this.updateTagsPanel();
   }
 
   updateRepliedTweet(tweet: Tweet, currIndex: number) {
@@ -100,10 +109,10 @@ export class TweetListComponent implements OnInit {
   }
 
   editCurrentTweet(currIndex: number): void {
-    if (this.enabledIndex === currIndex)
+    if (this.enabledTweetIndex === currIndex)
       this.resetMsgBoxEnabledIndex();
     else
-      this.enabledIndex = currIndex;
+      this.enabledTweetIndex = currIndex;
   }
 
   showRepliesForCurrentTweet(currIndex: number): void {
@@ -115,7 +124,7 @@ export class TweetListComponent implements OnInit {
   }
 
   isMsgBoxEnabled(currIndex: number): boolean {
-    return this.enabledIndex == currIndex;
+    return this.enabledTweetIndex == currIndex;
   }
 
   isTogglerEnabled(currIndex: number): boolean {
@@ -123,15 +132,19 @@ export class TweetListComponent implements OnInit {
   }
 
   resetMsgBoxEnabledIndex() {
-    this.enabledIndex = -1;
+    this.enabledTweetIndex = -1;
   }
 
   resetTogglerIndex() {
     this.replyIndex = -1
   }
 
-  get isTweetsAvailable(): boolean {
-    return this.tweetsInfo != null && this.tweetsInfo.length > 0;
+  private setTweetsAvailable(tweets: any) {
+    this.tweetsAvailable = (tweets != null && tweets.length > 0);
+  }
+
+  get isTweetsAvailable():boolean{
+    return this.tweetsAvailable;
   }
 
   get tweets(): any {

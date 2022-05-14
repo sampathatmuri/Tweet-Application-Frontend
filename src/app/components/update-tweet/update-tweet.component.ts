@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Tweet } from 'src/app/helper/dto/tweet';
+import { Tweet } from 'src/app/dto/tweet';
 import { StorageService } from 'src/app/services/storage.service';
 import { TweetService } from 'src/app/services/tweet.service';
 
@@ -21,9 +21,9 @@ export class UpdateTweetComponent implements OnInit {
   @Input() isEnabled: boolean = false;
 
   constructor(
-    private _formBuilder: FormBuilder,
-    private _tweetService: TweetService,
-    private _toastrService: ToastrService,
+    private formBuilder: FormBuilder,
+    private tweetService: TweetService,
+    private toastrService: ToastrService,
     private storageService: StorageService,) { }
 
   ngOnChanges(changes:SimpleChanges){
@@ -32,20 +32,20 @@ export class UpdateTweetComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  updateTweetForm = this._formBuilder.group({
+  updateTweetForm = this.formBuilder.group({
     message: ['', [Validators.required, Validators.maxLength(144)]]
   });
 
   updateTweet(updatedMsg: string): void {
     let emailId = this.storageService.getId();
     let tweetId = this.currTweet?.tweetId;
-    this._tweetService.updateTweetFromApi(emailId!, tweetId, { "message": updatedMsg }).subscribe(response => {
+    this.tweetService.updateTweetFromApi(emailId!, tweetId, { "message": updatedMsg }).subscribe(response => {
       this.updateTweetEvent.emit(response);
       this.emitCancelEnableEvent();
-      this._toastrService.success('Updated Successfully', 'Success', { timeOut: 1000, });
+      this.toastrService.success('Updated Successfully', 'Success', { timeOut: 1000, });
     },
       errorObj => {
-        this._toastrService.error(errorObj.error.message, 'Update tweets failed !!!', { timeOut: 2000 });
+        this.toastrService.error(errorObj.error.message, 'Failed !!!', { timeOut: 2000 });
       })
   }
 
