@@ -10,8 +10,7 @@
                                 <div class="form-group col-md-12">
                                     <label class="form-label" for="firstName">First Name:</label>
                                     <input id="firstName" class="form-control" type="text" formControlName="firstName">
-                                    <small class="text-danger"
-                                        *ngIf="(firstName?.touched || firstName?.dirty) && firstName?.invalid">
+                                    <small class="text-danger" *ngIf="(firstName?.touched || firstName?.dirty) && firstName?.invalid">
                                         <span *ngIf="firstName?.errors?.['required']">
                                             First Name is required.<br>
                                         </span>
@@ -28,8 +27,7 @@
                                 <div class="form-group col-md-12">
                                     <label class="form-label" for="lastName">Last Name:</label>
                                     <input id="lastName" class="form-control" type="text" formControlName="lastName">
-                                    <small class="text-danger"
-                                        *ngIf="(lastName?.touched || lastName?.dirty) && lastName?.invalid">
+                                    <small class="text-danger" *ngIf="(lastName?.touched || lastName?.dirty) && lastName?.invalid">
                                         <span *ngIf="lastName?.errors?.['required']">
                                             Last Name is required.<br>
                                         </span>
@@ -46,8 +44,7 @@
                                 <div class="form-group col-md-12">
                                     <label class="form-label" for="email">Email:</label>
                                     <input id="email" class="form-control" type="email" formControlName="emailId">
-                                    <small class="text-danger"
-                                        *ngIf="(emailId?.touched || emailId?.dirty) && emailId?.invalid">
+                                    <small class="text-danger" *ngIf="(emailId?.touched || emailId?.dirty) && emailId?.invalid">
                                         <span *ngIf="emailId?.errors?.['required']">
                                             Email is required.
                                         </span>
@@ -60,9 +57,8 @@
                             <div class="d-flex">
                                 <div class="form-group col-md-12">
                                     <label class="form-label" for="password">Password:</label>
-                                    <input id="password" class="form-control" type="text" formControlName="password">
-                                    <small class="text-danger"
-                                        *ngIf="(password?.touched || password?.dirty) && password?.invalid">
+                                    <input id="password" class="form-control" type="password" formControlName="password">
+                                    <small class="text-danger" *ngIf="(password?.touched || password?.dirty) && password?.invalid">
                                         <span *ngIf="password?.errors?.['required']">
                                             Password is required.
                                         </span>
@@ -76,10 +72,8 @@
                             <div class="d-flex">
                                 <div class="form-group col-md-12">
                                     <label class="form-label" for="confirmPassword">Confirm Password:</label>
-                                    <input id="confirmPassword" class="form-control" type="text"
-                                        formControlName="confirmPassword">
-                                    <small class="text-danger"
-                                        *ngIf="(confirmPassword?.touched || confirmPassword?.dirty) && confirmPassword?.invalid">
+                                    <input id="confirmPassword" class="form-control" type="password" formControlName="confirmPassword">
+                                    <small class="text-danger" *ngIf="(confirmPassword?.touched || confirmPassword?.dirty) && confirmPassword?.invalid">
                                         <span *ngIf="confirmPassword?.errors?.['required']">
                                             Confirm Password is required.<br>
                                         </span>
@@ -92,10 +86,8 @@
                             <div class="d-flex">
                                 <div class="form-group col-md-12">
                                     <label class="form-label" for="mobileNo">Mobile No:</label>
-                                    <input id="mobileNo" class="form-control" type="text"
-                                        formControlName="contactNumber">
-                                    <small class="text-danger"
-                                        *ngIf="(mobileNo?.touched || mobileNo?.dirty) && mobileNo?.invalid">
+                                    <input id="mobileNo" class="form-control" type="text" formControlName="contactNumber">
+                                    <small class="text-danger" *ngIf="(mobileNo?.touched || mobileNo?.dirty) && mobileNo?.invalid">
                                         <span *ngIf="mobileNo?.errors?.['required']">
                                             Mobile no is required.<br>
                                         </span>
@@ -111,8 +103,7 @@
                                 <button class="btn btn-primary" routerLink="/login" type="button">Back to Login</button>
                             </div>
                             <div class="">
-                                <button type="submit" class="btn btn-primary btn-block"
-                                    [disabled]="registerForm.invalid">Register</button>
+                                <button type="submit" class="btn btn-primary btn-block" [disabled]="registerForm.invalid">Register</button>
                             </div>
                         </div>
                     </form>

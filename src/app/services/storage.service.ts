@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as CryptoJS from 'crypto-js';
 
 const TOKEN_KEY = 'jwt';
 const ID_KEY = 'id';
@@ -7,8 +8,6 @@ const ID_KEY = 'id';
   providedIn: 'root'
 })
 export class StorageService {
-
-  private ID_KEY!: string | null;
 
   constructor() { }
 
@@ -30,15 +29,19 @@ export class StorageService {
   }
 
   saveId(id: string) {
-    this.ID_KEY = id;
+    const userinfo = CryptoJS.AES.encrypt(JSON.stringify(id), 'mys_scret_key').toString()
+    localStorage.setItem(ID_KEY, JSON.stringify(userinfo))
   }
 
   getId() {
-    return this.ID_KEY;
+    const eText = JSON.parse(localStorage.getItem(ID_KEY)!).toString()
+    const decryptedWord = CryptoJS.AES.decrypt(eText,'mys_scret_key')
+    const decryptedData = JSON.parse(decryptedWord.toString(CryptoJS.enc.Utf8));
+    return decryptedData;
   }
 
   removeToken() {
-    this.ID_KEY = null;
+    window.localStorage.removeItem(ID_KEY);
     window.localStorage.removeItem(TOKEN_KEY);
   }
 }

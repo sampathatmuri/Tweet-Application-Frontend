@@ -6,6 +6,11 @@ export const environment = {
   production: false
 };
 
+export const api = {
+  route: 'http://localhost:8082/api/v1.0/tweets'
+}
+
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
