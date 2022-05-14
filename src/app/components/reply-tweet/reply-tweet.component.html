@@ -1,8 +1,7 @@
 <form [formGroup]="replyForm" (ngSubmit)="postReply()">
     <div class="form-outline mb-4">
         <div class="form-group col-md-12">
-            <label for="reply">Reply Something: </label>
-            <textarea class="form-control" formControlName="message" placeholder="Reply here"></textarea>
+            <textarea class="form-control" formControlName="message" placeholder="Reply here" rows="3"></textarea>
             <div class="text-danger" *ngIf="(reply?.touched || reply?.dirty) && reply?.invalid">
                 <small *ngIf="reply?.errors?.['required']">
                     Reply is required.<br>

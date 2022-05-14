@@ -70,6 +70,7 @@ export class TweetListComponent implements OnInit {
       this._toastrService.success('Updated Successfully', 'Success', { timeOut: 1000, });
     },
       errorObj => {
+        console.log(errorObj)
         this._toastrService.error(errorObj.error.message, 'Update tweets failed !!!', { timeOut: 2000 });
       })
   }

@@ -17,8 +17,15 @@ mat-icon {
 }
 
 mat-icon.md-18 {
-    cursor: pointer;
     font-size: 18px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.mat-badge-content {
+    background: black
 }
 
 mat-icon.size-100 {

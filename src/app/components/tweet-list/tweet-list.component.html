@@ -1,5 +1,5 @@
 <app-post-tweet (postTweetEvent)="addNewTweet($event)"></app-post-tweet>
-<div *ngIf="!isTweetsEmpty" class="d-flex flex-column">
+<div class="d-flex flex-column">
     <div class="d-flex flex-row mb-2">
         <div><button type="button" class="btn btn-danger btn-sm mr-auto" (click)="getAllTweets()">Reset</button></div>
         <div class="dropdown ml-auto">
@@ -12,77 +12,90 @@
             </div>
         </div>
     </div>
-    <ul class="list-group">
-        <li *ngFor="let tweet of tweets;let index=index" class="list-group-item mb-2">
-
-            <div class="d-flex flex-column">
-                <div class="d-flex flex-row">
-                    <div><img src="../../../assets/images/person-icon.svg" width="35" height="35" alt="Profile"></div>
-                    <div class="d-flex flex-column flex-fill pl-2">
-                        <div class="d-flex align-items-center">
-                            <div class="mr-auto">
-                                <button type="button" class="btn btn-link"
+    <ul *ngIf="!isTweetsEmpty" class="pl-0">
+        <li *ngFor="let tweet of tweets;let index=index" class="card shadow mb-2">
+            <div class="card-body shadow-lg">
+                <div class="d-flex align-items-top mb-2">
+                    <div>
+                        <img src="../../../assets/images/person-icon.svg" width="35" height="35" alt="Profile">
+                    </div>
+                    <div class="d-flex flex-column flex-fill pl-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex flex-column align-items-start">
+                                <button type="button" class="btn btn-link p-0"
                                     (click)="filterByEmailId(tweet.emailId)">@{{tweet.emailId.split('@')[0]}}</button>
+                                <p class="text-muted small mb-0">{{tweet.createdAt | dateAgo}}</p>
                             </div>
-                            <div class="pl-2" *ngIf="isSameUser(tweet.emailId)">
-                                <div class="pl-4">
-                                    <mat-icon class="md-18" (click)="editCurrentTweet(index)">edit
-                                    </mat-icon>
-                                    <mat-icon class="md-18" color="warn" (click)="deleteTweet(index)">delete</mat-icon>
-                                </div>
-                            </div>
-                            <div class="pl-4">
-                                <p class="mb-0">{{tweet.createdAt | dateAgo}}</p>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-content-stretch">
-                            <div class="pl-4">
-                                <textarea class="mb-0" [disabled]="!isMsgBoxEnabled(index)"
-                                    #box>{{tweet.message}}</textarea>
-                            </div>
-                            <div class="pl-4" *ngIf="isMsgBoxEnabled(index)">
-                                <mat-icon class="md-18" [ngStyle]="{'color':'green'}"
-                                    (click)="updateTweet(index,box.value)">done</mat-icon>
-                                <mat-icon class="md-18" color="warn" (click)="resetMsgBoxEnabledIndex()">close
+                            <div class="d-flex align-items-center" *ngIf="isSameUser(tweet.emailId)">
+                                <mat-icon class="md-18" (click)="editCurrentTweet(index)">edit
+                                </mat-icon>
+                                <mat-icon class="md-18" color="warn" (click)="deleteTweet(index)">delete
                                 </mat-icon>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex flex-row align-items-center">
-                    <div class="pl-4">
-                        <mat-icon matBadge="{{tweet.likeCount}}" (click)="likeTweet(index)" matBadgeColor="warn">
-                            thumb_up</mat-icon>
+                <div class="ml-5">
+                    <div class="bg-light" *ngIf="!isMsgBoxEnabled(index)">
+                        <p>{{tweet.message}}</p>
                     </div>
-                    <div class="pl-4" *ngIf="!isSameUser(tweet.emailId)">
-                        <mat-icon (click)="showRepliesForCurrentTweet(index)">reply</mat-icon>
+                    <div class="d-flex align-items-end py-2" *ngIf="isMsgBoxEnabled(index)">
+                        <textarea class="mb-0 form-control bg-light" title="Tweet Message" placeholder="Message"
+                            [ngClass]="{'border-0':!isMsgBoxEnabled(index)}" rows="4" #box>{{tweet.message}}</textarea>
+                        <div class="d-flex pl-2">
+                            <mat-icon class="md-18" [ngStyle]="{'color':'green'}"
+                                (click)="updateTweet(index,box.value)">
+                                done</mat-icon>
+                            <mat-icon class="md-18" color="warn" (click)="resetMsgBoxEnabledIndex()">close
+                            </mat-icon>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-end py-2">
+                        <div class="d-flex py-2">
+                            <div class="d-flex align-items-center border border-danger cursor-pointer shadow rounded px-3 py-1"
+                                (click)="likeTweet(index)" matBadge="{{tweet.likeCount}}" matBadgeSize="small"
+                                matBadgeOverlap=true>
+                                <mat-icon color="warn">
+                                    favorite</mat-icon>
+                                <p class="mb-0">&nbsp;Like</p>
+
+                            </div>
+                            <div class="d-flex align-items-center border border-info cursor-pointer shadow rounded px-3 py-1 ml-2"
+                                *ngIf="!isSameUser(tweet.emailId)" (click)="showRepliesForCurrentTweet(index)">
+                                <mat-icon>reply</mat-icon>
+                                <p class="mb-0">&nbsp;Reply</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-column">
-                <div class="collapse" [ngbCollapse]="!isTogglerEnabled(index)">
-                    <div>
-                        <app-reply-tweet [currTweet]="tweet" (repliedTweetEvent)="updateRepliedTweet($event,index)">
-                        </app-reply-tweet>
-                    </div>
-                    <div>
-                        <ul class="list-group" *ngIf="tweet.replies!=null">
-                            <li *ngFor="let reply of tweet.replies" class="list-group-item mb-2 ml-4">
-                                <div class="d-flex flex-column">
-                                    <div class="d-flex flex-row">
-                                        <div class="pl-4">
-                                            <button type="button" class="btn btn-link">@{{reply.emailId.split('@')[0]}}</button>
+            <div class="card-footer py-0 border-top" style="background-color: #f8f9fa;">
+                <div class="d-flex flex-column">
+                    <div class="collapse" [ngbCollapse]="!isTogglerEnabled(index)">
+                        <div class="pt-2">
+                            <app-reply-tweet [currTweet]="tweet" (repliedTweetEvent)="updateRepliedTweet($event,index)">
+                            </app-reply-tweet>
+                        </div>
+                        <div>
+                            <ul class="list-group" *ngIf="tweet.replies!=null">
+                                <li *ngFor="let reply of tweet.replies" class="list-group-item mb-2 ml-4">
+                                    <div class="d-flex flex-column">
+                                        <div class="d-flex flex-row">
+                                            <div class="pl-4">
+                                                <button type="button"
+                                                    class="btn btn-link">@{{reply.emailId.split('@')[0]}}</button>
+                                            </div>
+                                            <div class="pl-4">
+                                                <p class="mb-0">{{reply.createdAt | dateAgo}}</p>
+                                            </div>
                                         </div>
-                                        <div class="pl-4">
-                                            <p class="mb-0">{{reply.createdAt | dateAgo}}</p>
+                                        <div>
+                                            <p>{{reply.message}}</p>
                                         </div>
                                     </div>
-                                    <div>
-                                        <p>{{reply.message}}</p>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

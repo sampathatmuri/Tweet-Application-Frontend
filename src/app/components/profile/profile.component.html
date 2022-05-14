@@ -4,13 +4,13 @@
             <mat-icon class="size-100">account_circle</mat-icon>
         </div>
     </div>
-    <div class="card-body" *ngIf="!isCurrentUserNull">
+    <div class="card-body py-2" *ngIf="!isCurrentUserNull">
         <div class="d-flex flex-column align-items-center">
             <div class="text-center">
                 <h2 class="mb-0">{{currentUser.firstName}}&nbsp;{{currentUser.lastName}}</h2>
                 <h4 class="mb-0">{{currentUser.emailId}}</h4>
-                <h5 class="mb-0">{{currentUser.contactNumber}}</h5>
-                <h4 class="mb-0"><button class="btn btn-primary" (click)="downloadTweets()">Download all tweets</button>
+                <h5 class="mb-1">{{currentUser.contactNumber}}</h5>
+                <h4 class="shadow mb-2"><button class="btn btn-primary" (click)="downloadTweets()">Download all tweets</button>
                 </h4>
             </div>
         </div>
