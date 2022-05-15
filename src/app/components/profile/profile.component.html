@@ -10,7 +10,7 @@
                 <h2 class="mb-0">{{currentUser.firstName}}&nbsp;{{currentUser.lastName}}</h2>
                 <h4 class="mb-0">{{currentUser.emailId}}</h4>
                 <h5 class="mb-1">{{currentUser.contactNumber}}</h5>
-                <h4 class="shadow mb-2"><button class="btn btn-primary" (click)="downloadTweets()">Download all tweets</button>
+                <h4 class="shadow mb-2"><button class="btn btn-primary" (click)="downloadTweets(currentUser.emailId)">Download all tweets</button>
                 </h4>
             </div>
         </div>

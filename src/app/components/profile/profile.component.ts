@@ -35,8 +35,8 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  downloadTweets() {
-    this.fileService.downloadFile().subscribe((response) => {
+  downloadTweets(emailId:string) {
+    this.fileService.downloadFile(emailId).subscribe((response) => {
       response = this.filterTweetIdAndRepliesFromResponse(response);
       const blob: any = new Blob([response], { type: 'text/json; charset=utf-8' });
       const url = window.URL.createObjectURL(blob);
