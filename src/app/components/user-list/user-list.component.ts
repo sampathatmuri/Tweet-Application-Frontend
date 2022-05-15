@@ -37,7 +37,7 @@ export class UserListComponent implements OnInit {
       this.sendTweetsOfUserToHome(response)
     },
       errorObj => {
-        this.sendTweetsOfUserToHome(null)
+        this.sendTweetsOfUserToHome([])
         this.toastrService.error(errorObj.error.message, 'Failed !!!', { timeOut: 2000 });
       })
   }
