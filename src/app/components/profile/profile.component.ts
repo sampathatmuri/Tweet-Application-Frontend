@@ -35,10 +35,10 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  downloadTweets() {
-    this.fileService.downloadFile().subscribe((response) => {
+  downloadTweets(emailId:string) {
+    this.fileService.downloadFile(emailId).subscribe((response) => {
       response = this.filterTweetIdAndRepliesFromResponse(response);
-      const blob: any = new Blob([response], { type: 'text/json; charset=utf-8' });
+      const blob: any = new Blob(response, { type: 'text/json; charset=utf-8' });
       const url = window.URL.createObjectURL(blob);
       fileSaver.saveAs(blob, 'tweets.json');
       this.toastrService.success('File downloaded successfully', 'Success', { timeOut: 1000, });
@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
   private filterTweetIdAndRepliesFromResponse(response: any): any {
     return response.map((obj: any) => {
       const { tweetId, replies, ...rest } = obj;
-      return JSON.stringify([rest]);
+      return JSON.stringify(rest);
     })
   }
 

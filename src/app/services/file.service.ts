@@ -10,8 +10,8 @@ export class FileService {
 
   constructor(private http: HttpClient) { }
 
-  downloadFile(): Observable<any> {
-    let target = `all`;
+  downloadFile(emailId: string): Observable<any> {
+    let target = `username/${emailId}`;
     return this.http.get<any>(`${api.route}/${target}`);
   }
 }
