@@ -34,8 +34,7 @@
                     <div class="d-flex flex-column flex-fill pl-4">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex flex-column">
-                                <button type="button" class="btn btn-link p-0"
-                                    (click)="filterByEmailId(tweet.emailId)">@{{tweet.emailId.split('@')[0]}}</button>
+                                <button type="button" class="btn btn-link p-0" (click)="filterByEmailId(tweet.emailId)">@{{tweet.emailId.split('@')[0]}}</button>
                                 <p class="text-muted small mb-0">{{tweet.createdAt | dateAgo}}</p>
                             </div>
                             <div class="d-flex align-items-center" *ngIf="isSameUser(tweet.emailId)">
@@ -46,22 +45,17 @@
                             </div>
                         </div>
                         <div class="d-flex py-2">
-                            <app-update-tweet class="d-flex flex-column flex-fill" [currTweet]="tweet"
-                                [isEnabled]="isMsgBoxEnabled(index)" (isEnabledChange)="resetMsgBoxEnabledIndex()"
-                                (updateTweetEvent)="updateTweet($event,index)">
+                            <app-update-tweet class="d-flex flex-column flex-fill" [currTweet]="tweet" [isEnabled]="isMsgBoxEnabled(index)" (isEnabledChange)="resetMsgBoxEnabledIndex()" (updateTweetEvent)="updateTweet($event,index)">
                             </app-update-tweet>
                         </div>
                         <div class="d-flex py-2">
-                            <div class="d-flex align-items-center border border-danger cursor-pointer shadow rounded px-3 py-1"
-                                (click)="likeTweet(index)" matBadge="{{tweet.likeCount}}" matBadgeSize="small"
-                                matBadgeOverlap=true>
+                            <div class="d-flex align-items-center border border-danger cursor-pointer shadow rounded px-3 py-1" (click)="likeTweet(index)" matBadge="{{tweet.likeCount}}" matBadgeSize="small" matBadgeOverlap=true>
                                 <mat-icon color="warn">
                                     favorite</mat-icon>
                                 <p class="mb-0">&nbsp;Like</p>
 
                             </div>
-                            <div class="d-flex align-items-center border border-info cursor-pointer shadow rounded px-3 py-1 ml-2"
-                                *ngIf="!isSameUser(tweet.emailId)" (click)="showRepliesForCurrentTweet(index)">
+                            <div class="d-flex align-items-center border border-info cursor-pointer shadow rounded px-3 py-1 ml-2" (click)="showRepliesForCurrentTweet(index)">
                                 <mat-icon>reply</mat-icon>
                                 <p class="mb-0">&nbsp;Reply</p>
                             </div>
@@ -76,12 +70,10 @@
                             <div class="card-body pb-0">
                                 <div class="d-flex">
                                     <div>
-                                        <img src="../../../assets/images/person-icon.svg" width="35" height="35"
-                                            alt="Profile">
+                                        <img src="../../../assets/images/person-icon.svg" width="35" height="35" alt="Profile">
                                     </div>
                                     <div class="d-flex flex-column flex-fill">
-                                        <app-reply-tweet [currTweet]="tweet"
-                                            (repliedTweetEvent)="updateRepliedTweet($event,index)">
+                                        <app-reply-tweet [currTweet]="tweet" (repliedTweetEvent)="updateRepliedTweet($event,index)">
                                         </app-reply-tweet>
                                     </div>
                                 </div>
