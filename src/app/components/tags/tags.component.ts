@@ -12,20 +12,17 @@ import { TagsService } from 'src/app/services/tags.service';
 export class TagsComponent implements OnInit {
 
   private trendingTags!: Tags[];
-  private tagsAvailable:boolean = true;
+  private tagsAvailable: boolean = true;
   @Output() tagsTweetEmitter = new EventEmitter<Tweet[]>();
-  @Input() updateTags!: boolean;
+  @Input() updateTags: boolean = false;
 
   constructor(private tagService: TagsService, private toastrService: ToastrService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.updateTags) {
-      this.getTrendingTags();
-    }
+    this.getTrendingTags();
   }
 
   ngOnInit(): void {
-    this.getTrendingTags();
   }
 
   public getTrendingTags() {
@@ -48,7 +45,7 @@ export class TagsComponent implements OnInit {
       })
   }
 
-  private setTagsAvailable(tags:Tags[]){
+  private setTagsAvailable(tags: Tags[]) {
     this.tagsAvailable = (this.tags != null && this.tags.length > 0);
   }
 
@@ -60,7 +57,7 @@ export class TagsComponent implements OnInit {
     return this.tagsAvailable;
   }
 
-  get tags():Tags[]{
+  get tags(): Tags[] {
     return this.trendingTags;
   }
 

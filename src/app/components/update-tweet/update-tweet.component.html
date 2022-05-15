@@ -1,15 +1,13 @@
 <div [formGroup]="updateTweetForm" class="d-flex align-items-end">
     <div class="d-flex flex-column flex-fill">
-        <textarea autosize class="mb-0 form-control bg-light disable-resize" title="Tweet Message"
-            formControlName="message" (input)="updateMaxLength()" [readonly]="!isEnabled" placeholder="Tweet Message"
-            [ngClass]="{'border-0':!isEnabled}"></textarea>
-        <small class="text-danger" *ngIf="(message?.touched || message?.dirty) && message?.invalid">
+        <textarea autosize class="mb-0 form-control bg-light disable-resize" title="Tweet Message" formControlName="message" (input)="updateMaxLength()" [readonly]="!isEnabled" placeholder="Tweet Message" [ngClass]="{'border-0':!isEnabled}"></textarea>
+        <small class="text-danger" *ngIf="(message?.touched || message?.dirty) && message?.invalid && isEnabled">
             <span *ngIf="message?.errors?.['maxlength']">
                 Tweet cannot exceed {{maxlength}} Characters.<br>
             </span>
         </small>
     </div>
-    <div class="d-flex pl-2" *ngIf="isEnabled">
+    <div class="d-flex pl-2" *ngIf="isEnabled && updateTweetForm.valid">
         <mat-icon class="md-18" [ngStyle]="{'color':'green'}" (click)="updateTweet(message?.value)">
             done</mat-icon>
         <mat-icon class="md-18" color="warn" (click)="emitCancelEnableEvent()">close

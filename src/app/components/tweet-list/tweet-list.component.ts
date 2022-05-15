@@ -15,6 +15,7 @@ export class TweetListComponent implements OnInit {
   private replyIndex: number = -1;
   tweetsAvailable: boolean = true;
   toggler: boolean = true
+  updateTagsTrigger: boolean = true
   @Input() tweetsInfo!: Tweet[];
   @Output() updateTagsEventEmitter = new EventEmitter<boolean>();
 
@@ -70,7 +71,8 @@ export class TweetListComponent implements OnInit {
   }
 
   private updateTagsPanel() {
-    this.updateTagsEventEmitter.emit(true);
+    this.updateTagsEventEmitter.emit(this.updateTagsTrigger);
+    this.updateTagsTrigger = !this.updateTagsTrigger
   }
 
   private updateTweets(tweet: Tweet) {
@@ -143,7 +145,7 @@ export class TweetListComponent implements OnInit {
     this.tweetsAvailable = (tweets != null && tweets.length > 0);
   }
 
-  get isTweetsAvailable():boolean{
+  get isTweetsAvailable(): boolean {
     return this.tweetsAvailable;
   }
 

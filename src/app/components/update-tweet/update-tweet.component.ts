@@ -20,7 +20,7 @@ export class UpdateTweetComponent implements OnInit {
 
   @Input() isEnabled: boolean = false;
 
-  maxlength: number = 144;
+  maxlength!: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,6 +30,7 @@ export class UpdateTweetComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.updateTweetForm.setValue({ 'message': this.currTweet.message });
+    this.updateMaxLength();
   }
   ngOnInit(): void {
   }
