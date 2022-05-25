@@ -8,4 +8,4 @@ RUN npm run build
 # stage 2
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=node /app/dist/tweet-app /usr/share/nginx/html
+COPY --from=node /app/dist/tweetapp /usr/share/nginx/html
